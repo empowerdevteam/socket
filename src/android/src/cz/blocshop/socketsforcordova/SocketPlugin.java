@@ -254,7 +254,7 @@ public class SocketPlugin extends CordovaPlugin {
 		@Override
 		public void accept(Void voidObject) {
 			socketAdapters.put(socketKey, socketAdapter);
-			this.openCallbackContext.success();
+			this.openCallbackContext.success("connected");
 		}
 	}
 }
