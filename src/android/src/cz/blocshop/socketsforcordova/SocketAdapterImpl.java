@@ -38,6 +38,9 @@ public class SocketAdapterImpl implements SocketAdapter {
     private Consumer<byte[]> dataConsumer;
     private Consumer<Boolean> closeEventHandler;
     private Consumer<String> errorEventHandler;
+
+    //modify
+     private Consumer<String> openSuccessEventHandler;
     
     private ExecutorService executor;
 
@@ -53,7 +56,9 @@ public class SocketAdapterImpl implements SocketAdapter {
             public void run() {
                 try {
 					socket.connect(new InetSocketAddress(host, port));
-					invokeOpenEventHandler();
+					//invokeOpenEventHandler();
+                    //modify
+                    invokeSuccessOpenEventHandler("success");
 					submitReadTask();
 				} catch (IOException e) {
 					Logging.Error(SocketAdapterImpl.class.getName(), "Error during connecting of socket", e.getCause());
@@ -108,7 +113,11 @@ public class SocketAdapterImpl implements SocketAdapter {
 	public void setOpenEventHandler(Consumer<Void> openEventHandler) {
 		this.openEventHandler = openEventHandler;
 	}
-
+    //modify
+    @Override
+    public void setOpenSuccessEventHandler(Consumer<String> openSuccessEventHandler) {
+        this.openSuccessEventHandler = openSuccessEventHandler;
+    }
 	@Override
 	public void setOpenErrorEventHandler(Consumer<String> openErrorEventHandler) {
 		this.openErrorEventHandler = openErrorEventHandler;
@@ -173,6 +182,12 @@ public class SocketAdapterImpl implements SocketAdapter {
     private void invokeOpenEventHandler() {
         if (this.openEventHandler != null) {
             this.openEventHandler.accept((Void)null);
+        }
+    }
+    //modify
+    private void invokeSuccessOpenEventHandler(String openSuccess) {
+        if (this.openSuccessEventHandler != null) {
+            this.openSuccessEventHandler.accept(openSuccess);
         }
     }
     

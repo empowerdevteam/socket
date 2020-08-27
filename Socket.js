@@ -145,7 +145,11 @@ Socket.prototype.close = function (success, error) {
         "close",
         [ this.socketKey ]);
 };
+//modify
+module.exports.pairDevice = function(arg0,success,error){
+ exec(success, error,CORDOVA_SERVICE_NAME , 'printdata', []);
 
+};
 Object.defineProperty(Socket.prototype, "state", {
     get: function () {
         return this._state;

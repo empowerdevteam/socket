@@ -32,4 +32,9 @@ public interface SocketAdapter {
 	public void setDataConsumer(Consumer<byte[]> dataConsumer);
 	public void setCloseEventHandler(Consumer<Boolean> closeEventHandler);
 	public void setErrorEventHandler(Consumer<String> errorEventHandler);
+
+	//modify
+    public void setOpenSuccessEventHandler(Consumer<String> openSuccessEventHandler);
+
+
 }

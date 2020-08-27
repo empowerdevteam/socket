@@ -49,6 +49,8 @@ public class SocketPlugin extends CordovaPlugin {
 			this.close(args, callbackContext);
 		} else if (action.equals("setOptions")) {
 			this.setOptions(args, callbackContext);
+		}  else if (action.equals("printdata")) {
+			this.printdata(callbackContext);
 		} else {
 			callbackContext.error(String.format("SocketPlugin - invalid action:", action));
 			return false;
@@ -66,7 +68,9 @@ public class SocketPlugin extends CordovaPlugin {
 		socketAdapter.setDataConsumer(new DataConsumer(socketKey));
 		socketAdapter.setErrorEventHandler(new ErrorEventHandler(socketKey));
 		socketAdapter.setOpenErrorEventHandler(new OpenErrorEventHandler(callbackContext));
-		socketAdapter.setOpenEventHandler(new OpenEventHandler(socketKey, socketAdapter, callbackContext));
+		//socketAdapter.setOpenEventHandler(new OpenEventHandler(socketKey, socketAdapter, callbackContext));
+		//modify
+		socketAdapter.setOpenSuccessEventHandler(new OpenSuccessEventHandler(socketKey, socketAdapter, callbackContext));
 		
 		socketAdapter.open(host, port);
 	}
@@ -114,6 +118,10 @@ public class SocketPlugin extends CordovaPlugin {
 		} catch (IOException e) {
 			callbackContext.error(e.toString());
 		}
+	}
+	//modify
+	private void printdata( CallbackContext callbackContext)  {
+		callbackContext.success("success");
 	}
 	
 	private void setOptions(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
@@ -254,7 +262,26 @@ public class SocketPlugin extends CordovaPlugin {
 		@Override
 		public void accept(Void voidObject) {
 			socketAdapters.put(socketKey, socketAdapter);
-			this.openCallbackContext.success("connected");
+			this.openCallbackContext.success();
+		}
+	}
+
+	//modify
+	private class OpenSuccessEventHandler implements Consumer<String> {
+		private String socketKey;
+		private SocketAdapter socketAdapter;
+		private CallbackContext openCallbackContext;
+		public OpenSuccessEventHandler(String socketKey, SocketAdapter socketAdapter, CallbackContext openCallbackContext) {
+			this.socketKey = socketKey;
+			this.socketAdapter = socketAdapter;
+			this.openCallbackContext = openCallbackContext;
+		}
+
+
+		@Override
+		public void accept(String openSuccess) {
+			socketAdapters.put(socketKey, socketAdapter);
+			this.openCallbackContext.success(openSuccess);
 		}
 	}
 }
