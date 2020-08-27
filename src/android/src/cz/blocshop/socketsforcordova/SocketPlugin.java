@@ -29,6 +29,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.net.SocketException;
 
 import android.annotation.SuppressLint;
 
