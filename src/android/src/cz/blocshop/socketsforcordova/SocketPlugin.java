@@ -71,6 +71,17 @@ public class SocketPlugin extends CordovaPlugin {
 		//socketAdapter.setOpenEventHandler(new OpenEventHandler(socketKey, socketAdapter, callbackContext));
 		//modify
 		socketAdapter.setOpenSuccessEventHandler(new OpenSuccessEventHandler(socketKey, socketAdapter, callbackContext));
+
+		SocketAdapterOptions options = new SocketAdapterOptions();
+		options.setKeepAlive(true);
+		//options.setSoLinger();
+		options.setSoTimeout(90000);
+		try {
+			socketAdapter.setOptions(options);
+
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 		
 		socketAdapter.open(host, port);
 	}
