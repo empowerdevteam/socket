@@ -1,10 +1,14 @@
 {
   "ExpandedNodes": [
     "",
+    "\\src",
     "\\src\\android",
-    "\\src\\ios",
-    "\\www"
+    "\\src\\android\\src",
+    "\\src\\android\\src\\cz",
+    "\\src\\android\\src\\cz\\blocshop",
+    "\\src\\android\\src\\cz\\blocshop\\socketsforcordova",
+    "\\src\\ios"
   ],
-  "SelectedNode": "\\www\\Socket.js",
+  "SelectedNode": "\\src\\android\\src\\cz\\blocshop\\socketsforcordova\\SocketPlugin.java",
   "PreviewInSolutionExplorer": false
 }

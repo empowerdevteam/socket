@@ -66,7 +66,8 @@ public class SocketPlugin extends CordovaPlugin {
 		socketAdapter.setDataConsumer(new DataConsumer(socketKey));
 		socketAdapter.setErrorEventHandler(new ErrorEventHandler(socketKey));
 		socketAdapter.setOpenErrorEventHandler(new OpenErrorEventHandler(callbackContext));
-		socketAdapter.setOpenEventHandler(new OpenEventHandler(socketKey, socketAdapter, callbackContext));
+		//socketAdapter.setOpenEventHandler(new OpenEventHandler(socketKey, socketAdapter, callbackContext));//modify
+		socketAdapter.setOpenSuccessEventHandler(new OpenSuccessEventHandler(socketKey,socketAdapter,callbackContext));
 		
 		socketAdapter.open(host, port);
 	}
@@ -255,6 +256,26 @@ public class SocketPlugin extends CordovaPlugin {
 		public void accept(Void voidObject) {
 			socketAdapters.put(socketKey, socketAdapter);
 			this.openCallbackContext.success("connected");
+		}
+	}
+
+		// modify
+
+	private class OpenSuccessEventHandler implements Consumer<String> {
+		private String socketKey;
+		private SocketAdapter socketAdapter;
+		private CallbackContext openCallbackContext;
+		public OpenSuccessEventHandler(String socketKey, SocketAdapter socketAdapter, CallbackContext openCallbackContext) {
+			this.socketKey = socketKey;
+			this.socketAdapter = socketAdapter;
+			this.openCallbackContext = openCallbackContext;
+		}
+		
+		@Override
+		public void accept(String successMessage) {
+			socketAdapters.put(socketKey, socketAdapter);
+			this.openCallbackContext.success(successMessage);
+
 		}
 	}
 }
